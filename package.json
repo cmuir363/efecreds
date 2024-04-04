@@ -1,0 +1,24 @@
+{
+  "name": "typescript-node-starter",
+  "version": "1.0.0",
+  "description": "Starter project for typescript and node",
+  "main": "app.js",
+  "scripts": {
+    "start": "npm run build && node dist/app.js",
+    "dev": "./node_modules/.bin/tsc-watch --onSuccess \"node ./dist/app.js\"",
+    "build": "npx tsc --outDir dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Calum Muir",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.4.0",
+    "tsc-watch": "^4.6.0",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "pg": "^8.11.5"
+  }
+}
