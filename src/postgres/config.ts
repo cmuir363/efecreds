@@ -9,7 +9,7 @@ export const clientConfig = {
     port: parseInt(process.env.PG_PORT),
     ssl: {
         rejectUnauthorized: false,
-        ca: fs.readFileSync('/Users/calum.muir/dev/efecreds/certs/ca.cert').toString()
+        ca: fs.readFileSync(`${process.env.PATH_TO_CERTS}/certs/ca.cert`).toString()
     }
 }
 
