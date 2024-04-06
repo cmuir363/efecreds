@@ -22,7 +22,6 @@ export class EfecredsClient implements IEfecredsClient {
             await this.client.connect()
             console.log(createRandomPassword())
             console.log('Connected to database')
-            this.updateCredentials('calumtest')
         } catch (err) {
             console.error(err)
         } 
