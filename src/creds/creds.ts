@@ -19,29 +19,32 @@ class Creds {
         this.startCredsRequestValidatorLoop(loopInterval)
     }
 
-    addCredsRequest(credsRequest: ICredsRequest){
-        const credsRequestWithValidityDuration = this.getCredsRequestWithValidityDuration(credsRequest, this.duration)
+    addCredsRequest(username: string){
+        console.log("Adding creds request")
+        const credsRequestWithValidityDuration = this.createCredsRequestWithValidityDuration(username, this.duration)
         this.credsRequestArray.push(credsRequestWithValidityDuration)
     }
 
 
     /**
      * Returns a new credsRequest object with required validity
-     * @param credsRequest - The creds request to clone and set validity duration.
+     * @param username - The user to create a cress request for
      * @param duration - The duration in milliseconds for the creds request to be valid.
      */
-    getCredsRequestWithValidityDuration(credsRequest: ICredsRequest, duration: number){
+    createCredsRequestWithValidityDuration(username: string, duration: number){
+        console.log("Creating creds request")
         return {
-            ...credsRequest,
+            username: username,
             validUntil: Date.now() + duration
         }
     }
 
-    removeCredsRequestAndUpdatePassword(credsRequest: ICredsRequest){
+    removeCredsRequestAndRandomisePassword(credsRequest: ICredsRequest){
         this.credsRequestArray = this.credsRequestArray.filter(
                 request => request !== credsRequest
             )
         this.efecredsClient.updateCredentials(credsRequest.username)
+        console.log("removed credentials")
     }
 
     isCredsRequestStillValid(credsRequest: ICredsRequest){
@@ -54,12 +57,15 @@ class Creds {
     
     startCredsRequestValidatorLoop(loopInterval: number){
         setInterval(() => {
+            console.log("Checking creds requests")
             this.credsRequestArray.forEach(credsRequest => {
                 if (!this.isCredsRequestStillValid(credsRequest)){
-                    this.removeCredsRequest(credsRequest)
+                    this.removeCredsRequestAndRandomisePassword(credsRequest)
                 }
             })
         }, loopInterval)
     }
 
 }
+
+export default Creds;

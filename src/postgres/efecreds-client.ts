@@ -6,6 +6,8 @@ import { createRandomPassword } from '../creds/creds-crypto';
 export interface IEfecredsClient {
     client: Client;
     connectToDatabase(): Promise<void>
+    updateCredentials(pgUsername: string): Promise<string>
+    disconnectFromDatabase(): Promise<void>
 }
 
 export class EfecredsClient implements IEfecredsClient {
@@ -20,7 +22,6 @@ export class EfecredsClient implements IEfecredsClient {
     async connectToDatabase() {
         try {
             await this.client.connect()
-            console.log(createRandomPassword())
             console.log('Connected to database')
         } catch (err) {
             console.error(err)
@@ -41,6 +42,7 @@ export class EfecredsClient implements IEfecredsClient {
         try {
             await this.client.query(query.text)
             console.log('Updated credentials')
+            console.log(newPassword)
             return newPassword
         } catch (err) {
             console.error(err)

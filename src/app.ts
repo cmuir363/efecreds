@@ -1,6 +1,7 @@
 import express from "express"
 import 'dotenv/config'
 import { EfecredsClient, IEfecredsClient } from "./postgres/efecreds-client"
+import Creds from "./creds/creds"
 
 const app = express()
 const port = process.env.PORT
@@ -11,6 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.locals.efecredsClient = new EfecredsClient() as IEfecredsClient
+app.locals.creds = new Creds(1000*60*0.5, 30000, app.locals.efecredsClient)
 
 app.use('/set-credentials', setCredentialsRouter)
 
