@@ -27,7 +27,7 @@ export class EfecredsClient implements IEfecredsClient {
         } 
     }
 
-    async updateCredentials(pgUsername) {
+    async updateCredentials(pgUsername): Promise<string> {
 
         // Ensure pgUsername is safe to interpolate
         if (!/^[a-zA-Z0-9_]+$/.test(pgUsername)) {
@@ -41,6 +41,7 @@ export class EfecredsClient implements IEfecredsClient {
         try {
             await this.client.query(query.text)
             console.log('Updated credentials')
+            return newPassword
         } catch (err) {
             console.error(err)
         }

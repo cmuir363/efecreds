@@ -1,3 +1,4 @@
+import { IEfecredsClient } from "../postgres/efecreds-client";
 
 interface ICredsRequest {
     username: string;
@@ -9,10 +10,12 @@ class Creds {
 
     credsRequestArray = []
     duration: number
+    efecredsClient: IEfecredsClient;
 
-    constructor(duration: number, loopInterval: number = 1000){
+    constructor(duration: number, loopInterval: number = 1000, efecredsClient: IEfecredsClient){
         console.log(`Creds constructor initialised. Creds will be valid for ${duration/(1000*60)} minutes.`)
         this.duration = duration
+        this.efecredsClient = efecredsClient
         this.startCredsRequestValidatorLoop(loopInterval)
     }
 
@@ -34,10 +37,11 @@ class Creds {
         }
     }
 
-    removeCredsRequest(credsRequest: ICredsRequest){
+    removeCredsRequestAndUpdatePassword(credsRequest: ICredsRequest){
         this.credsRequestArray = this.credsRequestArray.filter(
                 request => request !== credsRequest
             )
+        this.efecredsClient.updateCredentials(credsRequest.username)
     }
 
     isCredsRequestStillValid(credsRequest: ICredsRequest){
