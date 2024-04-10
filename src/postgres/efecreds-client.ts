@@ -34,18 +34,17 @@ export class EfecredsClient implements IEfecredsClient {
         if (!/^[a-zA-Z0-9_]+$/.test(pgUsername)) {
             throw new Error("Invalid username");
         }
-        const newPassword = createRandomPassword()
+        const ephemeralPassword = createRandomPassword()
         const query = {
-            text: `ALTER ROLE ${pgUsername} WITH PASSWORD '${newPassword}'`
+            text: `ALTER ROLE ${pgUsername} WITH PASSWORD '${ephemeralPassword}'`
         }
 
         try {
             await this.client.query(query.text)
             console.log('Updated credentials')
-            console.log(newPassword)
-            return newPassword
+            return ephemeralPassword
         } catch (err) {
-            console.error(err)
+            throw new Error(err)
         }
     }
 

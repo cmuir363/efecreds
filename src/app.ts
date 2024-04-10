@@ -1,4 +1,5 @@
 import express from "express"
+import { jwtCheck } from "./auth/auth"
 import 'dotenv/config'
 import { EfecredsClient, IEfecredsClient } from "./postgres/efecreds-client"
 import Creds from "./creds/creds"
@@ -10,6 +11,8 @@ import setCredentialsRouter from "./routes/set-credentials"
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+app.use(jwtCheck);
 
 app.locals.efecredsClient = new EfecredsClient() as IEfecredsClient
 app.locals.creds = new Creds(1000*60*0.5, 30000, app.locals.efecredsClient)

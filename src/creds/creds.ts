@@ -39,7 +39,7 @@ class Creds {
         }
     }
 
-    removeCredsRequestAndRandomisePassword(credsRequest: ICredsRequest){
+    removeCredsRequestAndRandomizePassword(credsRequest: ICredsRequest){
         this.credsRequestArray = this.credsRequestArray.filter(
                 request => request !== credsRequest
             )
@@ -60,7 +60,7 @@ class Creds {
             console.log("Checking creds requests")
             this.credsRequestArray.forEach(credsRequest => {
                 if (!this.isCredsRequestStillValid(credsRequest)){
-                    this.removeCredsRequestAndRandomisePassword(credsRequest)
+                    this.removeCredsRequestAndRandomizePassword(credsRequest)
                 }
             })
         }, loopInterval)
