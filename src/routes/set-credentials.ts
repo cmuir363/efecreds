@@ -9,7 +9,6 @@ const router = express.Router()
 router.post('/', async (req, res) => {
 try {
     const newPassword = await (req.app.locals.efecredsClient as IEfecredsClient).updateCredentials("calumtest");
-    console.log(newPassword);
     (req.app.locals.creds as Creds).addCredsRequest("calumtest");
     console.log("Added creds request to creds data structure")
     res.send('New password is: ' + newPassword)
